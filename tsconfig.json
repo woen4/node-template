@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "NodeNext",
+    "lib": ["ES2022"],
+    "declaration": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "outDir": "./build",
+    "baseUrl": "./",
+    "resolveJsonModule": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "useDefineForClassFields": false,
+    "strictFunctionTypes": false,
+    "composite": true,
+    "paths": {
+      "@core/*": ["./src/core/*"],
+      "@application/*": ["src/application/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@infra/*": ["./src/infra/*"],
+      "@test/*": ["./test/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
+  },
+  "include": ["src/**/*", "__tests__/**/*"]
+}
