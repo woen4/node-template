@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "NodeNext",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM"],
     "declaration": true,
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
@@ -10,7 +10,6 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "sourceMap": true,
-    "outDir": "./build",
     "baseUrl": "./",
     "resolveJsonModule": true,
     "incremental": true,
@@ -18,6 +17,8 @@
     "useDefineForClassFields": false,
     "strictFunctionTypes": false,
     "composite": true,
+  
+    "rootDir": "./",
     "paths": {
       "@core/*": ["./src/core/*"],
       "@application/*": ["src/application/*"],

@@ -2,8 +2,9 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['src/index.ts'],
-  splitting: true,
-  minify: 'terser',
+
+  minify: false,
+
   sourcemap: false,
   clean: true,
 })

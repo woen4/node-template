@@ -1,12 +1,6 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 import { userRoutes } from './v1/user-routes'
+import { Hono } from 'hono'
 
-export const appRoutes = (
-  server: FastifyInstance,
-  options: FastifyPluginOptions,
-  done: () => void,
-) => {
-  userRoutes(server)
-
-  done()
+export const registerRoutes = (app: Hono) => {
+  userRoutes(app)
 }

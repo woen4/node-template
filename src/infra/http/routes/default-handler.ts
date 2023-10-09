@@ -1,19 +1,19 @@
-import { FastifyRequest, FastifyReply } from 'fastify'
 import { StatusErrorCodeMapper } from './status-error-code-mapper'
 import { IUseCase } from '@application/types'
+import { Context } from 'hono'
 
-export const defaultHandler = async (
-  useCase: IUseCase,
-  req: FastifyRequest,
-  reply: FastifyReply,
-) => {
-  //  @ts-expect-error Body and query can be any type
-  const response = await useCase.handle({ ...req.body, ...req.query })
+export const defaultHandler = (useCase: IUseCase) => {
+  return async function (ctx: Context) {
+    const requestPayload = { ...(await ctx.req.json()), ...ctx.req.query() }
 
-  if (response.isLeft())
-    return reply
-      .status(StatusErrorCodeMapper[response.value.code])
-      .send(response.value)
+    const response = await useCase.handle(requestPayload)
 
-  return reply.status(200).send(response.value)
+    if (response.isLeft())
+      return ctx.json(
+        response.value,
+        StatusErrorCodeMapper[response.value.code],
+      )
+
+    return ctx.json(response.value, 200)
+  }
 }

@@ -1,20 +1,21 @@
-import { FastifyInstance } from 'fastify'
-import fastifyJwt from '@fastify/jwt'
 import { jwtConfig } from '@infra/config'
+import { Hono } from 'hono'
+import { jwt } from 'hono/jwt'
 
-export const authMiddleware = (app: FastifyInstance) => {
-  app.register(fastifyJwt, {
-    secret: jwtConfig.key,
-  })
-
-  app.addHook('onRequest', async (request, reply) => {
-    const ignorePattern = '^/login$'
-    const doesntMatchWithIgnorePattern = !request.url.match(ignorePattern)
+export const authMiddleware = (app: Hono) => {
+  app.use(async (ctx, next) => {
+    const ignorePattern = '/login$'
+    const doesntMatchWithIgnorePattern = !ctx.req.url.match(ignorePattern)
 
     try {
-      if (doesntMatchWithIgnorePattern) await request.jwtVerify()
+      if (doesntMatchWithIgnorePattern)
+        await jwt({ secret: jwtConfig.secret, alg: jwtConfig.algorithm })(
+          ctx,
+          next,
+        )
     } catch (err) {
-      reply.status(401).send({ message: 'Unauthorized operation' })
+      return ctx.json({ message: 'Unauthorized operation' }, 401)
     }
+    await next()
   })
 }

@@ -1,20 +1,11 @@
-import { jwtConfig } from '@infra/config'
-import { IAuthProvider } from '../i-auth-provider'
-import { createSigner, createVerifier } from 'fast-jwt'
 import { AsyncEither, left, right } from '@core/logic/Either'
 import { UnauthorizedError } from '@application/errors/unauthorized-error'
+import { IAuthProvider } from '..'
+import { JwtHelper } from '.'
 
 export class JwtAuthProvider implements IAuthProvider {
-  signer = createSigner({
-    key: jwtConfig.key,
-  })
-
-  verifier = createVerifier({
-    key: jwtConfig.key,
-  })
-
   async generateCredentials(payload: Record<string, unknown>) {
-    const token = this.signer(payload)
+    const token = await JwtHelper.sign(payload)
 
     return { token }
   }
@@ -23,7 +14,7 @@ export class JwtAuthProvider implements IAuthProvider {
     credentials: unknown,
   ): AsyncEither<UnauthorizedError, unknown> {
     try {
-      const result = this.verifier(credentials as string)
+      const result = await JwtHelper.verify(credentials as string)
       return right(result)
     } catch (error) {
       return left(new UnauthorizedError(error))

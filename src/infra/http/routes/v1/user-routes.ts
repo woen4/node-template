@@ -1,13 +1,9 @@
-import { type FastifyInstance } from 'fastify'
 import { diContainer } from '@infra/diConfig'
 import { defaultHandler } from '../default-handler'
+import { Hono } from 'hono'
 
-export const userRoutes = (server: FastifyInstance) => {
-  server.post('/user', async (...params) => {
-    await defaultHandler(diContainer.cradle.CreateUserUseCase, ...params)
-  })
+export const userRoutes = (app: Hono) => {
+  app.post('/user', defaultHandler(diContainer.cradle.CreateUserUseCase))
 
-  server.post('/login', async (...params) => {
-    await defaultHandler(diContainer.cradle.LoginUseCase, ...params)
-  })
+  app.post('/login', defaultHandler(diContainer.cradle.LoginUseCase))
 }

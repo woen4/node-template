@@ -7,7 +7,7 @@ import { mapObject } from '@core/utils'
 import { prismaClient } from './database/prisma/prisma.service'
 import { PrismaClient } from '@prisma/client'
 import { IAuthProvider } from './auth'
-import { JwtAuthProvider } from './auth/providers'
+import { JwtAuthProvider } from './auth/jwt'
 
 type IDiContainer = {
   prisma: PrismaClient

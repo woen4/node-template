@@ -1,10 +1,6 @@
-import { FastifyError, FastifyRequest, FastifyReply } from 'fastify'
+import { ErrorHandler } from 'hono'
 
-export const errorHandler = (
-  fastifyError: FastifyError,
-  request: FastifyRequest,
-  reply: FastifyReply,
-) => {
-  console.error(fastifyError)
-  return reply.status(500).send({ message: 'Houve um erro inesperado' })
+export const errorHandler: ErrorHandler = (error, ctx) => {
+  console.error(error)
+  return ctx.json({ message: 'Houve um erro inesperado' }, 500)
 }

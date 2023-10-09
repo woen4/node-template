@@ -9,4 +9,5 @@
 !/init*.sh
 !/package.json
 !/tsconfig*.json
-!/yarn.lock
+!/tsup.config.ts
+!/package-lock.json
